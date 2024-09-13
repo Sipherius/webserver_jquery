@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "baseUrl": "./src",
+        "declaration": true,
+        "esModuleInterop": true,
+        "lib": ["dom", "esnext"],
+        "module": "CommonJS",
+        "rootDir": "src",
+        "outDir": "dist",
+        "strict": true,
+        "target": "ES2023"
+    },
+    "include": [
+        "./src/**/*.*ts"
+    ],
+    "exclude": [
+        "./dist"
+    ]
+}
