@@ -3,6 +3,7 @@ import express, { Express } from 'express';
 import http from 'http';
 
 import Routes from './util/routes';
+import ApiRoutes from './util/apiRoutes';
 
 dotenv.config();
 
@@ -11,6 +12,7 @@ const port = process.env.PORT || 3000;
 const app: Express = express();
 
 Routes.setup(app);
+ApiRoutes.setup(app);
 
 const server = http.createServer(app);
 
