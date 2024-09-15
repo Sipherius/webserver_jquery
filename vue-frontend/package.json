@@ -15,7 +15,7 @@
   "dependencies": {
     "vue": "^3.4.29",
     "vue-router": "^4.3.3",
-    "webserver_jquery": "file:../backend"
+    "webserver_jquery": "file:.."
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.8.0",

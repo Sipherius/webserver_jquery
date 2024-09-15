@@ -7,9 +7,9 @@
     "build": "npx tsc",
     "start": "node dist/server.js",
     "dev": "nodemon src/server.ts",
-    "install-ui": "npm --prefix ../vue-frontend install",
-    "build-ui": "npm --prefix ../vue-frontend run build",
-    "copy-ui": "npx cpx \"../vue-frontend/dist/**\" ./dist/frontend",
+    "install-ui": "npm --prefix ./vue-frontend install",
+    "build-ui": "npm --prefix ./vue-frontend run build",
+    "copy-ui": "npx cpx \"./vue-frontend/dist/**\" ./dist/frontend",
     "ui": "npm run install-ui && npm run build-ui && npm run copy-ui",
     "lint": "eslint src/**/*",
     "test": "echo \"Error: no test specified\" && exit 1"
