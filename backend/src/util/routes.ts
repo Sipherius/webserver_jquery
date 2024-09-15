@@ -1,4 +1,4 @@
-import { Express, Request, Response } from 'express';
+import express, { Express, Request, Response } from 'express';
 import axios, { AxiosResponse } from 'axios';
 import dotenv from 'dotenv';
 
@@ -12,11 +12,13 @@ axios.defaults.baseURL = process.env.API_DOMAIN;
 
 const Routes = {
   setup(app: Express) {
-    app.get('/', (req: Request, res: Response) => {
-      let output = '<h1>Hello World!</h1>';
-      output += '<a href="/call">Call API</button>';
-      res.send(output);
-    });
+    app.use(express.static('dist/frontend'));
+
+    // app.get('/', (req: Request, res: Response) => {
+    //   let output = '<h1>Hello World!</h1>';
+    //   output += '<a href="/call">Call API</button>';
+    //   res.send(output);
+    // });
 
     app.get('/call', (req: Request, res: Response) => {
       axios.get('/api')
