@@ -4,6 +4,9 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+console.log(process.env);
+console.log(process.env.API_DOMAIN);
+
 if (!process.env.API_DOMAIN) {
   throw new Error('API_DOMAIN not set.');
 }
