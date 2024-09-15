@@ -4,9 +4,6 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-console.log(process.env);
-console.log(process.env.API_DOMAIN);
-
 if (!process.env.API_DOMAIN) {
   throw new Error('API_DOMAIN not set.');
 }
@@ -16,7 +13,9 @@ axios.defaults.baseURL = process.env.API_DOMAIN;
 const Routes = {
   setup(app: Express) {
     app.get('/', (req: Request, res: Response) => {
-      res.send('<h1>Hello World!</h1>');
+      let output = '<h1>Hello World!</h1>';
+      output += '<a href="/call">Call API</button>';
+      res.send(output);
     });
 
     app.get('/call', (req: Request, res: Response) => {
