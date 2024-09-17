@@ -1,6 +1,29 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
+import axios from 'axios';
+
+axios.defaults.baseURL = 'http://localhost:3000/';//process.env.API_DOMAIN;
+
+function callAPI() {
+  console.log("Call API");
+
+  axios.get('/api')
+    .then((response) => {
+      // handle success
+      // eslint-disable-next-line no-console
+      console.log(`API Response: ${response.data}`);
+    })
+    .catch((error) => {
+      // handle error
+      // eslint-disable-next-line no-console
+      console.log('Error: ', error);
+    })
+    .finally(() => {
+      // always executed
+    });
+}
+
 </script>
 
 <template>
@@ -9,6 +32,8 @@ import HelloWorld from './components/HelloWorld.vue'
 
     <div class="wrapper">
       <HelloWorld msg="You did it!" />
+
+      <button @click="callAPI">Call API</button>
 
       <nav>
         <RouterLink to="/">Home</RouterLink>
