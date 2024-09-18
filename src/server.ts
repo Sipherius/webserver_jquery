@@ -1,3 +1,4 @@
+import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import express, { Express } from 'express';
 import http from 'http';
@@ -10,6 +11,8 @@ dotenv.config();
 const port = process.env.PORT || 3000;
 
 const app: Express = express();
+
+app.use(bodyParser.json());
 
 Routes.setup(app);
 ApiRoutes.setup(app);

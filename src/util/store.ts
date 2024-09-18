@@ -1,7 +1,9 @@
-import mysql, { ConnectionOptions, Pool, QueryError } from 'mysql2';
+import mysql, {
+  ConnectionOptions, Pool, QueryError, ResultSetHeader,
+} from 'mysql2';
 import ITodos from '../models/todos';
 
-// import Todo from '../models/todo';
+import ITodo from '../models/todo';
 
 const dbOptions: ConnectionOptions = {
   host: process.env.DB_HOST,
@@ -33,9 +35,9 @@ class Store {
     });
   }
 
-  getTodos(): Promise<ITodos | QueryError> {
+  getTodos(): Promise<ITodos | Error> {
     return new Promise((resolve, reject) => {
-      this.pool.query<ITodos>('SELECT * FROM a_todos;', (_err, rows) => {
+      this.pool.query<ITodos>('SELECT * FROM a_todos;', (_err: QueryError, rows: ITodos) => {
         if (_err) {
           return reject(_err);
         }
@@ -44,27 +46,82 @@ class Store {
     });
   }
 
-  // addTodo(todo: Todo): Todo {
-  //   const todos = this.db.get('todos');
-  //   todo.id = getFreeId(todos); // eslint-disable-line no-param-reassign
-  //   todos.push(todo);
-  //   this.db.set('todos', todos);
-  //   return todo;
-  // }
+  getTodo(id: string): Promise<ITodo | Error> {
+    return new Promise((resolve, reject) => {
+      this.pool.query<ITodos>(`SELECT * FROM a_todos WHERE id = '${id}';`, (_err: QueryError, rows: ITodos) => {
+        if (_err) {
+          return reject(_err);
+        }
+        if (rows.length !== 1) {
+          return reject(new Error('Error retrieving todo.'));
+        }
+        return resolve(rows[0]);
+      });
+    });
+  }
 
-  // addTodos(todos: Todos): Todos {
-  //   const dbTodos = this.db.get('todos');
-  //   todos.forEach((todo) => {
-  //     todo.id = getFreeId(todos); // eslint-disable-line no-param-reassign
-  //     dbTodos.push(todo);
-  //   });
-  //   this.db.set('todos', dbTodos);
-  //   return dbTodos;
-  // }
+  addTodo(todo: ITodo): Promise<ITodo | Error> {
+    return new Promise((resolve, reject) => {
+      const sql = `INSERT INTO a_todos 
+                  (id, title, description, done, created_date, updated_date, due_date, done_date) 
+                  VALUES (
+                  '${todo.id}', 
+                  '${todo.title}', 
+                  '${todo.description}', 
+                  '${todo.done}', 
+                  '${todo.created_date}', 
+                  '${todo.updated_date}', 
+                  ${todo.due_date ? `'${todo.due_date}'` : 'NULL'}, 
+                  ${todo.done_date ? `'${todo.done_date}'` : 'NULL'}
+                  )`;
 
-  // deleteAllTodos() {
-  //   this.db.set('todos', []);
-  // }
+      this.pool.query<ITodos>(sql, (_err: QueryError, result: ResultSetHeader) => {
+        if (_err) {
+          return reject(_err);
+        }
+        if (!result.affectedRows) {
+          return reject(new Error('Todo could not be inserted.'));
+        }
+        return resolve(todo);
+      });
+    });
+  }
+
+  updateTodo(todo: ITodo): Promise<ITodo | Error> {
+    return new Promise((resolve, reject) => {
+      const sql = `UPDATE a_todos 
+                  SET 
+                  title = '${todo.title}', 
+                  description = '${todo.description}', 
+                  updated_date = '${todo.updated_date}' 
+                  WHERE 
+                  id = '${todo.id}'`;
+
+      this.pool.query<ITodos>(sql, (_err: QueryError, result: ResultSetHeader) => {
+        if (_err) {
+          return reject(_err);
+        }
+        if (!result.affectedRows) {
+          return reject(new Error('Todo could not be updated.'));
+        }
+        return resolve(todo);
+      });
+    });
+  }
+
+  deleteTodo(id: string): Promise<void | Error> {
+    return new Promise((resolve, reject) => {
+      this.pool.query<ITodos>(`DELETE FROM a_todos WHERE id = '${id}';`, (_err: QueryError, result: ResultSetHeader) => {
+        if (_err) {
+          return reject(_err);
+        }
+        if (!result.affectedRows) {
+          return reject(new Error('Todo could not be deleted.'));
+        }
+        return resolve();
+      });
+    });
+  }
 }
 
 export default Store;

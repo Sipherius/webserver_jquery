@@ -1,111 +1,38 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+import { RouterLink, RouterView } from 'vue-router';
+import HelloWorld from './components/HelloWorld.vue';
 import axios from 'axios';
 
 console.log(import.meta.env.VITE_API_DOMAIN);
 axios.defaults.baseURL = import.meta.env.VITE_API_DOMAIN;
 
-function callAPI() {
-  console.log("Call API");
-
-  axios.get('/api')
-    .then((response) => {
-      // handle success
-      // eslint-disable-next-line no-console
-      console.log(`API Response: ${response.data}`);
-    })
-    .catch((error) => {
-      // handle error
-      // eslint-disable-next-line no-console
-      console.log('Error: ', error);
-    })
-    .finally(() => {
-      // always executed
-    });
-}
-
 </script>
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <button @click="callAPI">Call API</button>
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
+    <HelloWorld msg="Sandbox" />
   </header>
 
-  <RouterView />
+  <div class="wrapper">
+    <nav>
+      <RouterLink to="/">Home</RouterLink>
+      <RouterLink to="/todos">Todos</RouterLink>
+      <RouterLink to="/about">About</RouterLink>
+    </nav>
+
+    <RouterView />
+  </div>
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+.wrapper {
+  display: flex;
+  column-gap: 1rem;
 }
 
 nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
+  display: flex;
+  flex-direction: column;
+  padding: 0 2rem;
 }
 </style>

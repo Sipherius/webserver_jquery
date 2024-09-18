@@ -7,7 +7,29 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: HomeView,
+    },
+    {
+      path: '/todos',
+      name: 'todos',
+      component: () => import('../views/TodosView.vue'),
+    },
+    {
+      path: '/todos/create',
+      name: 'todosCreate',
+      component: () => import('../views/TodoCreateView.vue'),
+    },
+    {
+      path: '/todos/edit/:id',
+      name: 'todosEdit',
+      props: true,
+      component: () => import('../views/TodoEditView.vue'),
+    },
+    {
+      path: '/todos/delete/:id',
+      name: 'todosDelete',
+      props: true,
+      component: () => import('../views/TodoDeleteView.vue'),
     },
     {
       path: '/about',
@@ -15,7 +37,7 @@ const router = createRouter({
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue')
+      component: () => import('../views/AboutView.vue'),
     }
   ]
 })
