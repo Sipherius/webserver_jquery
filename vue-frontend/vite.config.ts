@@ -12,5 +12,13 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
-  }
+  },
+  build: {
+    manifest: true,
+    rollupOptions: {
+      external: [
+        fileURLToPath(new URL('./src/assets/styles', import.meta.url))
+      ],
+    },
+  },
 })

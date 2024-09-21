@@ -3,6 +3,8 @@ import type { Todo } from '@/models/todo';
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
+import PRButton from './elements/PRButton.vue';
+import PRButtonRow from './elements/PRButtonRow.vue';
 
 const props = defineProps({
   id: String
@@ -59,16 +61,28 @@ function submitTodo() {
     })
     .catch(console.error);
 }
+
+// const myTestButton = ref(PRButton);
+
+// function testButton() {
+//   console.log("Button clicked");
+//   myTestButton.value.startLoading();
+//   setTimeout(() => {
+//     myTestButton.value.stopLoading();
+//   }, 2000);
+
+// }
 </script>
 
 <template>
   <div class="createTodoWrapper">
     <RouterLink to="/todos">Back</RouterLink>
     <h2>Edit Todo</h2>
-    <form @submit.prevent="submitTodo">
+    <form @submit.prevent="submitTodo" class="group relative">
       <div class="formRow">
         <label for="todoTitle">Title</label>
-        <input id="todoTitle" type="text" v-model="editTodo.title">
+        <input id="todoTitle" type="text" v-model="editTodo.title"
+               class="focus:ring-2 focus:ring-blue-500 focus:outline-none appearance-none w-full text-sm leading-6 text-slate-900 placeholder-slate-400 rounded-md py-2 px-4 ring-1 ring-slate-200 shadow-sm">
       </div>
       <div class="formRow">
         <label for="todoDescription">Description</label>
@@ -76,11 +90,10 @@ function submitTodo() {
       </div>
       <div class="formRow">
         <span></span>
-        <div>
-          <button type="button" @click="resetTodo">Reset</button>
-          &nbsp;
-          <button type="submit">Edit Todo</button>
-        </div>
+        <PRButtonRow>
+          <PRButton @click="resetTodo">Reset</PRButton>
+          <PRButton type="submit">Edit Todo</PRButton>
+        </PRButtonRow>
       </div>
     </form>
   </div>
